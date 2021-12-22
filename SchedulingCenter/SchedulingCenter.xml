@@ -110,6 +110,16 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="T:SchedulingCenter.Managers.Quartz.Net.JobActuator">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:SchedulingCenter.Managers.Quartz.Net.JobActuator.#ctor">
+            <summary>
+            
+            </summary>
+        </member>
         <member name="M:SchedulingCenter.Managers.Quartz.Net.JobActuator.Execute(Quartz.IJobExecutionContext)">
             <summary>
             
