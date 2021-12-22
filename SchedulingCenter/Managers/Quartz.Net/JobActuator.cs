@@ -12,6 +12,9 @@ using SchedulingCenter.DTO.Response;
 
 namespace SchedulingCenter.Managers.Quartz.Net
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public class JobActuator : IJob {
         private readonly ILogger _logger = LoggerManager.GetLogger("JobActuator");
 
@@ -19,7 +22,9 @@ namespace SchedulingCenter.Managers.Quartz.Net
 
         private IScheduleStore _store;
         private  IJsonHelper ijsonHelper;
-
+        /// <summary>
+        /// 
+        /// </summary>
         public JobActuator() {
             ijsonHelper  = AppConfigContext.ServiceProvider.GetService(typeof(IJsonHelper)) as IJsonHelper;
 
@@ -38,21 +43,6 @@ namespace SchedulingCenter.Managers.Quartz.Net
             }
 
         }
-
-        ///// <summary>
-        ///// 执行任务
-        ///// </summary>
-        ///// <param name="context"></param>
-        ///// <returns></returns>
-        //public async Task Execute(IJobExecutionContext context)
-        //{
-        //    using (var scope = AppConfigContext.ServiceProvider.CreateScope())
-        //    {
-        //        _store = scope.ServiceProvider.GetService<IScheduleStore>();
-        //        _client = scope.ServiceProvider.GetService<HttpClientActuator>();
-        //        await ExecuteJob(context);
-        //    }
-        //}
         private async Task ExecuteJob(IJobExecutionContext context) {
             try {
                 _logger.Info($"任务执行器开始工作Execute(IJobExecutionContext context)，任务名称：{context.JobDetail.Key.Name}，任务分组：{context.JobDetail.Key.Group}，下次执行时间：{(context.NextFireTimeUtc == null ? "无" : context.NextFireTimeUtc.Value.ToString())}");
