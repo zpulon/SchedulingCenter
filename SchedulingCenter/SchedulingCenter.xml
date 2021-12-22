@@ -1,0 +1,510 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>SchedulingCenter</name>
+    </assembly>
+    <members>
+        <member name="M:SchedulingCenter.Controllers.SchedulerController.Submit(SchedulingCenter.DTO.Request.QuartzEntityRequest)">
+            <summary>
+            添加并运行任务
+            </summary>
+            <param name="request"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SchedulingCenter.Controllers.SchedulerController.StopSchedule(SchedulingCenter.DTO.Request.StopScheduleRequest)">
+            <summary>
+            停止并选择删除运行任务
+            </summary>
+            <param name="request"></param>
+            <returns></returns>
+        </member>
+        <member name="T:SchedulingCenter.DTO.Request.QuartzEntityRequest">
+            <summary>
+            任务调度添加请求体
+            </summary>
+        </member>
+        <member name="P:SchedulingCenter.DTO.Request.QuartzEntityRequest.JobGroup">
+            <summary>
+            任务分组（JobGroup + JobName 唯一确定一个任务）（*必传）
+            </summary>
+        </member>
+        <member name="P:SchedulingCenter.DTO.Request.QuartzEntityRequest.JobName">
+            <summary>
+            任务名称（*必传）
+            </summary>
+        </member>
+        <member name="P:SchedulingCenter.DTO.Request.QuartzEntityRequest.CronStr">
+            <summary>
+            执行表达式（任务执行的时间及方式，例：0 * * * * ? *表示每分钟执行一次），
+            CronStr为空时任务只在开始时间内执行一次
+            </summary>
+        </member>
+        <member name="P:SchedulingCenter.DTO.Request.QuartzEntityRequest.StarRunTime">
+            <summary>
+            运行时间，如为空则默认当前时间
+            </summary>
+        </member>
+        <member name="P:SchedulingCenter.DTO.Request.QuartzEntityRequest.EndRunTime">
+            <summary>
+            任务停止时间，为空则任务不停止
+            </summary>
+        </member>
+        <member name="P:SchedulingCenter.DTO.Request.QuartzEntityRequest.Callback">
+            <summary>
+            回调地址（*必传）
+            </summary>
+        </member>
+        <member name="P:SchedulingCenter.DTO.Request.QuartzEntityRequest.Args">
+            <summary>
+            参数（自定义参数，回调时原样返回）
+            </summary>
+        </member>
+        <member name="T:SchedulingCenter.DTO.Request.StopScheduleRequest">
+            <summary>
+            停止一个任务
+            </summary>
+        </member>
+        <member name="P:SchedulingCenter.DTO.Request.StopScheduleRequest.JobGroup">
+            <summary>
+            任务分组
+            </summary>
+        </member>
+        <member name="P:SchedulingCenter.DTO.Request.StopScheduleRequest.JobName">
+            <summary>
+            任务名称
+            </summary>
+        </member>
+        <member name="T:SchedulingCenter.DTO.Response.ScheduleExecuteResponse">
+            <summary>
+            任务执行回调
+            </summary>
+        </member>
+        <member name="P:SchedulingCenter.DTO.Response.ScheduleExecuteResponse.JobName">
+            <summary>
+            任务名称
+            </summary>
+        </member>
+        <member name="P:SchedulingCenter.DTO.Response.ScheduleExecuteResponse.JobGroup">
+            <summary>
+            任务分组
+            </summary>
+        </member>
+        <member name="P:SchedulingCenter.DTO.Response.ScheduleExecuteResponse.Args">
+            <summary>
+            参数，添加任务时用户自定参数
+            </summary>
+        </member>
+        <member name="P:SchedulingCenter.DTO.Response.ScheduleExecuteResponse.Callback">
+            <summary>
+            回调地址
+            </summary>
+        </member>
+        <member name="T:SchedulingCenter.Managers.InitManager">
+            <summary>
+            数据初始化
+            </summary>
+        </member>
+        <member name="M:SchedulingCenter.Managers.InitManager.LoadDataAsync">
+            <summary>
+            加载历史数据
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:SchedulingCenter.Managers.Quartz.Net.JobActuator.Execute(Quartz.IJobExecutionContext)">
+            <summary>
+            
+            </summary>
+            <param name="context"></param>
+            <returns></returns>
+        </member>
+        <member name="T:SchedulingCenter.Managers.Quartz.Net.SchedulerCenter">
+            <summary>
+            任务调度中心
+            </summary>
+        </member>
+        <member name="F:SchedulingCenter.Managers.Quartz.Net.SchedulerCenter.ScheduleList">
+            <summary>
+            任务计划列表
+            </summary>
+        </member>
+        <member name="F:SchedulingCenter.Managers.Quartz.Net.SchedulerCenter.Instance">
+            <summary>
+            任务调度对象
+            </summary>
+        </member>
+        <member name="P:SchedulingCenter.Managers.Quartz.Net.SchedulerCenter.Scheduler">
+            <summary>
+            返回任务计划（调度机）
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:SchedulingCenter.Managers.Quartz.Net.SchedulerCenter.AddScheduleJob``1(SchedulingCenter.Models.ScheduleEntity,System.Threading.CancellationToken)">
+            <summary>
+            添加一个工作调度
+            </summary>
+            <param name="m"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SchedulingCenter.Managers.Quartz.Net.SchedulerCenter.StopScheduleJob(System.String,System.String,Quartz.ITrigger,System.Threading.CancellationToken)">
+            <summary>
+            停止指定的计划
+            </summary>
+            <param name="jobGroup"></param>
+            <param name="jobName"></param>
+            <param name="isDelete">停止并删除任务</param>
+            <returns></returns>
+        </member>
+        <member name="M:SchedulingCenter.Managers.Quartz.Net.SchedulerCenter.RunScheduleJob``1(System.String,System.String,System.Threading.CancellationToken)">
+            <summary>
+            运行指定的计划
+            </summary>
+            <param name="jobGroup"></param>
+            <param name="jobName"></param>
+            <returns></returns>
+        </member>
+        <member name="T:SchedulingCenter.Managers.ScheduleManager">
+            <summary>
+            任务调度管理
+            </summary>
+        </member>
+        <member name="M:SchedulingCenter.Managers.ScheduleManager.RemoveSchedule(SchedulingCenter.Models.ScheduleEntity)">
+            <summary>
+            从任务列表删除指定的任务
+            </summary>
+            <param name="schedule"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SchedulingCenter.Managers.ScheduleManager.AddSchedule(SchedulingCenter.DTO.Request.QuartzEntityRequest,System.String,System.Threading.CancellationToken)">
+            <summary>
+            添加任务并运行
+            </summary>
+            <param name="request">添加任务请求</param>
+            <param name="cancellationToken">请求标识</param>
+            <returns></returns>
+        </member>
+        <member name="M:SchedulingCenter.Managers.ScheduleManager.StopSchedule(SchedulingCenter.DTO.Request.StopScheduleRequest,System.Threading.CancellationToken)">
+            <summary>
+            停止任务并允许永久删除
+            </summary>
+            <param name="request">停止任务请求</param>
+            <param name="cancellationToken">请求标识</param>
+            <returns></returns>
+        </member>
+        <member name="M:SchedulingCenter.Managers.ScheduleManager.GetAllSchedules">
+            <summary>
+            根据大于等于当前时间的所有未删除的任务
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:SchedulingCenter.Managers.ScheduleManager.UpdateCreateAsync(System.Collections.Generic.List{SchedulingCenter.Models.ScheduleEntity},System.Threading.CancellationToken)">
+            <summary>
+            更新任务
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:SchedulingCenter.Models.EnumType">
+            <summary>
+            枚举类型
+            </summary>
+        </member>
+        <member name="F:SchedulingCenter.Models.EnumType.JobStatus.Opened">
+            <summary>
+            已启用 
+            </summary>
+        </member>
+        <member name="F:SchedulingCenter.Models.EnumType.JobStatus.Stopped">
+            <summary>
+            已停止
+            </summary>
+        </member>
+        <member name="F:SchedulingCenter.Models.EnumType.JobStep.Completed">
+            <summary>
+            已完成
+            </summary>
+        </member>
+        <member name="F:SchedulingCenter.Models.EnumType.JobStep.Planned">
+            <summary>
+            执行任务计划中
+            </summary>
+        </member>
+        <member name="F:SchedulingCenter.Models.EnumType.JobRunStatus.Running">
+            <summary>
+            执行中
+            </summary>
+        </member>
+        <member name="F:SchedulingCenter.Models.EnumType.JobRunStatus.Waiting">
+            <summary>
+            待运行
+            </summary>
+        </member>
+        <member name="F:SchedulingCenter.Models.EnumType.JobRunStatus.Finish">
+            <summary>
+            执行完成
+            </summary>
+        </member>
+        <member name="P:SchedulingCenter.Models.ScheduleDbContext.Schedules">
+            <summary>
+            调度任务
+            </summary>
+        </member>
+        <member name="T:SchedulingCenter.Models.ScheduleDetailsEntity">
+            <summary>
+            任务调度详情
+            </summary>
+        </member>
+        <member name="P:SchedulingCenter.Models.ScheduleDetailsEntity.JobGroup">
+            <summary>
+            任务分组
+            </summary>
+        </member>
+        <member name="P:SchedulingCenter.Models.ScheduleDetailsEntity.JobName">
+            <summary>
+            任务名称
+            </summary>
+        </member>
+        <member name="P:SchedulingCenter.Models.ScheduleDetailsEntity.ActionDescribe">
+            <summary>
+            方法描述
+            </summary>
+        </member>
+        <member name="P:SchedulingCenter.Models.ScheduleDetailsEntity.ActionStep">
+            <summary>
+            任务执行状态
+            </summary>
+        </member>
+        <member name="P:SchedulingCenter.Models.ScheduleDetailsEntity.CreateTime">
+            <summary>
+            创建时间
+            </summary>
+        </member>
+        <member name="P:SchedulingCenter.Models.ScheduleDetailsEntity.IsSuccess">
+            <summary>
+            是否成功执行
+            </summary>
+        </member>
+        <member name="T:SchedulingCenter.Models.ScheduleEntity">
+            <summary>
+            任务调度实体
+            </summary>
+        </member>
+        <member name="P:SchedulingCenter.Models.ScheduleEntity.Id">
+            <summary>
+            任务标识
+            </summary>
+        </member>
+        <member name="P:SchedulingCenter.Models.ScheduleEntity.JobGroup">
+            <summary>
+            任务分组
+            </summary>
+        </member>
+        <member name="P:SchedulingCenter.Models.ScheduleEntity.JobName">
+            <summary>
+            任务名称
+            </summary>
+        </member>
+        <member name="P:SchedulingCenter.Models.ScheduleEntity.CronStr">
+            <summary>
+            执行表达式
+            </summary>
+        </member>
+        <member name="P:SchedulingCenter.Models.ScheduleEntity.Status">
+            <summary>
+            任务状态
+            </summary>
+        </member>
+        <member name="P:SchedulingCenter.Models.ScheduleEntity.RunStatus">
+            <summary>
+            任务运行状态
+            </summary>
+        </member>
+        <member name="P:SchedulingCenter.Models.ScheduleEntity.RunStep">
+            <summary>
+            任务运行步骤
+            </summary>
+        </member>
+        <member name="P:SchedulingCenter.Models.ScheduleEntity.NextTime">
+            <summary>
+            下次执行时间
+            </summary>
+        </member>
+        <member name="P:SchedulingCenter.Models.ScheduleEntity.StarRunTime">
+            <summary>
+            运行时间
+            </summary>
+        </member>
+        <member name="P:SchedulingCenter.Models.ScheduleEntity.EndRunTime">
+            <summary>
+            停止时间
+            </summary>
+        </member>
+        <member name="P:SchedulingCenter.Models.ScheduleEntity.Args">
+            <summary>
+            参数
+            </summary>
+        </member>
+        <member name="P:SchedulingCenter.Models.ScheduleEntity.Callback">
+            <summary>
+            回调地址
+            </summary>
+        </member>
+        <member name="P:SchedulingCenter.Models.ScheduleEntity.CreateTime">
+            <summary>
+            创建时间
+            </summary>
+        </member>
+        <member name="P:SchedulingCenter.Models.ScheduleEntity.UpdateTime">
+            <summary>
+            更新时间
+            </summary>
+        </member>
+        <member name="P:SchedulingCenter.Models.ScheduleEntity.ActuatorAddress">
+            <summary>
+            执行器地址（IP，端口号）
+            </summary>
+        </member>
+        <member name="P:SchedulingCenter.Models.ScheduleEntity.IsDelete">
+            <summary>
+            是否删除
+            </summary>
+        </member>
+        <member name="P:SchedulingCenter.Models.StatusResult.Status">
+            <summary>
+            0-成功，500-失败
+            </summary>
+        </member>
+        <member name="P:SchedulingCenter.Models.StatusResult.Msg">
+            <summary>
+            提示消息
+            </summary>
+        </member>
+        <member name="T:SchedulingCenter.Stores.IScheduleStore">
+            <summary>
+            调度任务数据层接口
+            </summary>
+        </member>
+        <member name="M:SchedulingCenter.Stores.IScheduleStore.CreateAsync(System.Collections.Generic.List{SchedulingCenter.Models.ScheduleEntity},System.Threading.CancellationToken)">
+            <summary>
+            添加一组任务
+            </summary>
+            <param name="schedules">调度任务</param>
+            <param name="cancellationToken">操作标识</param>
+            <returns></returns>
+        </member>
+        <member name="M:SchedulingCenter.Stores.IScheduleStore.CreateAsync(SchedulingCenter.Models.ScheduleEntity,System.Threading.CancellationToken)">
+            <summary>
+            添加调度任务
+            </summary>
+            <param name="schedules">调度任务</param>
+            <param name="cancellationToken">操作标识</param>
+            <returns></returns>
+        </member>
+        <member name="M:SchedulingCenter.Stores.IScheduleStore.RemoveAsync(SchedulingCenter.Models.ScheduleEntity,System.Threading.CancellationToken)">
+            <summary>
+            删除调度任务
+            </summary>
+            <param name="schedules">调度任务</param>
+            <param name="cancellationToken">操作标识</param>
+            <returns></returns>
+        </member>
+        <member name="M:SchedulingCenter.Stores.IScheduleStore.UpdateAsync(SchedulingCenter.Models.ScheduleEntity,System.Threading.CancellationToken)">
+            <summary>
+            更新调度任务
+            </summary>
+            <param name="schedules">调度任务</param>
+            <param name="cancellationToken">操作标识</param>
+            <returns></returns>
+        </member>
+        <member name="M:SchedulingCenter.Stores.IScheduleStore.UpdateAsync(System.Collections.Generic.List{SchedulingCenter.Models.ScheduleEntity},System.Threading.CancellationToken)">
+            <summary>
+            更新调度任务
+            </summary>
+            <param name="schedules">调度任务</param>
+            <param name="cancellationToken">操作标识</param>
+            <returns></returns>
+        </member>
+        <member name="M:SchedulingCenter.Stores.IScheduleStore.GetSchedules">
+            <summary>
+            获取调度任务
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:SchedulingCenter.Stores.ScheduleStore">
+            <summary>
+            调度任务实现
+            </summary>
+        </member>
+        <member name="M:SchedulingCenter.Stores.ScheduleStore.#ctor(SchedulingCenter.Models.ScheduleDbContext)">
+            <summary>
+            任务调度构造函数
+            </summary>
+            <param name="context">数据库上下文</param>
+        </member>
+        <member name="M:SchedulingCenter.Stores.ScheduleStore.CreateAsync(System.Collections.Generic.List{SchedulingCenter.Models.ScheduleEntity},System.Threading.CancellationToken)">
+            <summary>
+            添加一组任务
+            </summary>
+            <param name="schedules">调度任务</param>
+            <param name="cancellationToken">操作标识</param>
+            <returns></returns>
+        </member>
+        <member name="M:SchedulingCenter.Stores.ScheduleStore.CreateAsync(SchedulingCenter.Models.ScheduleEntity,System.Threading.CancellationToken)">
+            <summary>
+            添加调度任务
+            </summary>
+            <param name="schedules">调度任务</param>
+            <param name="cancellationToken">操作标识</param>
+            <returns></returns>
+        </member>
+        <member name="M:SchedulingCenter.Stores.ScheduleStore.UpdateAsync(SchedulingCenter.Models.ScheduleEntity,System.Threading.CancellationToken)">
+            <summary>
+            更新调度任务
+            </summary>
+            <param name="schedules">调度任务</param>
+            <param name="cancellationToken">操作标识</param>
+            <returns></returns>
+        </member>
+        <member name="M:SchedulingCenter.Stores.ScheduleStore.UpdateAsync(System.Collections.Generic.List{SchedulingCenter.Models.ScheduleEntity},System.Threading.CancellationToken)">
+            <summary>
+            更新调度任务
+            </summary>
+            <param name="schedules">调度任务</param>
+            <param name="cancellationToken">操作标识</param>
+            <returns></returns>
+        </member>
+        <member name="M:SchedulingCenter.Stores.ScheduleStore.GetSchedules">
+            <summary>
+            获取调度任务
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:SchedulingCenter.Stores.ScheduleStore.RemoveAsync(SchedulingCenter.Models.ScheduleEntity,System.Threading.CancellationToken)">
+            <summary>
+            
+            </summary>
+            <param name="schedule"></param>
+            <param name="cancellationToken"></param>
+            <returns></returns>
+        </member>
+        <member name="P:SchedulingCenter.Util.AppConfigContext.ServiceProvider">
+            <summary>
+            服务管道
+            </summary>
+        </member>
+        <member name="F:SchedulingCenter.Util.AppConfigContext.LockObject">
+            <summary>
+            静态锁对象
+            </summary>
+        </member>
+        <member name="T:SchedulingCenter.Util.ServiceCollectionExtensions">
+            <summary>
+            服务扩展集合
+            </summary>
+        </member>
+        <member name="M:SchedulingCenter.Util.ServiceCollectionExtensions.AddDefined(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            注入服务
+            </summary>
+            <param name="services"></param>
+        </member>
+    </members>
+</doc>

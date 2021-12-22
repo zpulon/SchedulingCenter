@@ -3,3 +3,8 @@
 ################################################################################
 
 /.vs/SchedulingCenter/DesignTimeBuild
+/.vs/SchedulingCenter/v16
+/SchedulingCenter/bin/Debug/net5.0
+/SchedulingCenter/obj
+/SchedulingCenter/Properties
+/SchedulingCenter/appsettings.Development.json
